@@ -5,15 +5,13 @@ const mongoose = require("mongoose");
 
 dotenv.config();
 app.use(express.json());
+app.use("/user", require("./router/userRouter"));
 
 mongoose.connect(process.env.MONGODB_URI, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
 });
 
-app.get("/", (req, res) => {
-  res.json("hello");
-});
 app.listen(3001, () => {
   console.log("Server listing port 3001");
 });
