@@ -5,12 +5,12 @@ const jwt = require("jsonwebtoken");
 
 const userCtr = {
   register: async (req, res) => {
-    console.log(req.body.email);
+    const { error } = registerAuth(req.body);
+    if (error) return res.status(400).json(error.details[0].message);
+
     const existsUser = await User.findOne({ email: req.body.email });
     if (existsUser) return res.status(400).json({ msg: "Email alreay exites" });
 
-    const { error } = registerAuth(req.body);
-    if (error) return res.status(400).json(error.details[0].message);
     try {
       const { name, email, password } = req.body; // object distraction
       const salt = await bcrypt.genSalt(10);
@@ -40,7 +40,7 @@ const userCtr = {
   refreshToken: (req, res) => {
     try {
       const rf_token = req.cookies.refreshToken;
-      
+
       if (!rf_token)
         return res.status(400).json({ msg: "Please login or register" }); // check the brower has cookies
       jwt.verify(rf_token, process.env.REFRESH, (err, user) => {
@@ -54,6 +54,31 @@ const userCtr = {
     }
     const rf_token = req.cookies.refreshToken;
     res.json({ rf_token });
+  },
+  login: async (req, res) => {
+    // const {error}=loginAuth(req.body);
+    // if(error) return res.status(400).json(error.details[0].message);
+
+    try {
+      const { email, password } = req.body;
+      const checkUser = await User.findOne({email});   // find user base on email so there is user
+      if (!checkUser) return res.status(400).json("Email dosn't exists");
+
+      const checkPassword=await bcrypt.compare(password,checkUser.password);
+      if(!checkPassword) return res.status(400).json({msg:"Password is wrong"});
+
+      const acessToken=createAcessToken({id:checkUser._id});
+      const refreshToken=createRefreshToken({id:checkUser._id});
+
+      res.cookie("refreshToken",refreshToken,{
+        httpOnly:true,
+      });
+      res.json({acessToken});
+
+      res.json("hello");
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
   },
 };
 
