@@ -3,7 +3,10 @@ const bcrypt = require("bcrypt");
 const { registerAuth } = require("./validation");
 const userCtr = {
   register: async (req, res) => {
-    const {error} = registerAuth(req.body);
+    const existsUser = User.findOne({ email: req.body.email });
+    if (existsUser) return res.status(400).json({ msg: "Email alreay exites" });
+    
+    const { error } = registerAuth(req.body);
     if (error) return res.status(400).json(error.details[0].message);
     try {
       const { name, email, password } = req.body; // object distraction
