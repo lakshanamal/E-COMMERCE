@@ -86,11 +86,11 @@ const userCtr = {
   },
   getUser: async (req, res) => {
     try {
-      const user = await User.findById(req.user.id);
+      const user = await User.findById(req.user.id).select('-password');
       if (!user) return res.status(400).json({ msg: "user doesnt exists" });
-      res.jason(user);
+      res.json(user);
     } catch (err) {
-      return res.status(500).json(err.message);
+      return res.status(500).json({msg:err.message});
     }
   },
 };
