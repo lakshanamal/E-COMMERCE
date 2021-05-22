@@ -80,6 +80,14 @@ const userCtr = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  logout:(req,res)=>{
+    try{
+      res.clearCookie('refreshToken');
+      return res.json({msg:"Logged out"});
+    }catch(err){
+      return res.status(500).json({msg:err.message});
+    }
+  }
 };
 
 const createAcessToken = (id) => {
