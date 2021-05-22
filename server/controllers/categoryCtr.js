@@ -10,6 +10,13 @@ const categoryCtr = {
   },
   createCategory:async (req,res)=>{
       try{
+          const {name}=req.body;
+          const checkCategory=await Category.findOne({name});
+          if(checkCategory) return res.status(400).json({msg:"Product alreaty exists"});
+
+          const newProduct=new Category({name});
+          newProduct.save();
+
         res.json("Create sucessfull");
       }catch(err){
         return res.status(500).json({msg:err.message})
