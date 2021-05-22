@@ -21,18 +21,17 @@ const userCtr = {
         password: hashPassword,
       });
       const savedUser = await newUser.save();
-      // // const savedUser = await User.deleteMany({});
+      // const savedUser = await User.deleteMany({});
 
-      const accessToken = crateAcessToken({ id: savedUser._id });
+      const accessToken = createAcessToken({ id: savedUser._id });
       const refreshToken = createRefreshToken({ id: savedUser._id });
 
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        // path: "/user/refreshtoken",
       });
 
-      res.json({ meg: "accessToken" });
-      // console.log({ accessToken });
+      // res.json({ meg: "Register sucess" });
+      res.json({ accessToken });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -47,13 +46,11 @@ const userCtr = {
         if (err)
           return res.status(400).json({ msg: "Please logine or register" }); // compare with brower cookies and server cookies
         const acessToken = createAcessToken({ id: user.id });
-        res.json({ user, acessToken });
+        res.json({ acessToken });
       });
     } catch (error) {
       res.status(500).json({ meg: error.message });
     }
-    const rf_token = req.cookies.refreshToken;
-    res.json({ rf_token });
   },
   login: async (req, res) => {
     // const {error}=loginAuth(req.body);
@@ -61,33 +58,41 @@ const userCtr = {
 
     try {
       const { email, password } = req.body;
-      const checkUser = await User.findOne({email});   // find user base on email so there is user
+      const checkUser = await User.findOne({ email }); // find user base on email so there is user
       if (!checkUser) return res.status(400).json("Email dosn't exists");
 
-      const checkPassword=await bcrypt.compare(password,checkUser.password);
-      if(!checkPassword) return res.status(400).json({msg:"Password is wrong"});
+      const checkPassword = await bcrypt.compare(password, checkUser.password);
+      if (!checkPassword)
+        return res.status(400).json({ msg: "Password is wrong" });
 
-      const acessToken=createAcessToken({id:checkUser._id});
-      const refreshToken=createRefreshToken({id:checkUser._id});
+      const acessToken = createAcessToken({ id: checkUser._id });
+      const refreshToken = createRefreshToken({ id: checkUser._id });
 
-      res.cookie("refreshToken",refreshToken,{
-        httpOnly:true,
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
       });
-      res.json({acessToken});
-
-      res.json("hello");
+      res.json({ acessToken });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
   },
-  logout:(req,res)=>{
-    try{
-      res.clearCookie('refreshToken');
-      return res.json({msg:"Logged out"});
-    }catch(err){
-      return res.status(500).json({msg:err.message});
+  logout: (req, res) => {
+    try {
+      res.clearCookie("refreshToken");
+      return res.json({ msg: "Logged out" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
     }
-  }
+  },
+  getUser: async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id);
+      if (!user) return res.status(400).json({ msg: "user doesnt exists" });
+      res.jason(user);
+    } catch (err) {
+      return res.status(500).json(err.message);
+    }
+  },
 };
 
 const createAcessToken = (id) => {
