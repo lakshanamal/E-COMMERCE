@@ -3,13 +3,13 @@ const cloudinary = require("cloudinary");
 const express = require("express");
 const auth = require("../middleware/auth");
 const authAdmin = require("../middleware/authAdmin");
-const env = require("dotenv");
+const dotenv = require("dotenv");
 const fs = require("fs");
-
+dotenv.config();
 cloudinary.config({
-  cloud_name: "dtsfx4bxo",
-  api_key: "356946675641672",
-  api_secret: "aReRitaRfNQxtwbHI7mgqAmwS54",
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.COUDINARY_API_KEY,
+  api_secret: process.env.CLOUDNARY_SECRET,
 });
 
 router.post("/upload", (req, res) => {
@@ -55,6 +55,7 @@ router.post("/destory", (req, res) => {
 });
 
 const removeTmp = (path) => {
+  // temp img delete when it added
   fs.unlink(path, (err) => {
     if (err) throw err;
   });
