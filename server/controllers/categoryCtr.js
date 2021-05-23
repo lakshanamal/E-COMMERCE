@@ -1,28 +1,36 @@
-const Category=require('../models/categoryModel')
+const Category = require("../models/categoryModel");
 const categoryCtr = {
   getCategories: async (req, res) => {
-    try{
-        const cate=await Category.findOne();
-        res.json(cate);
-    }catch(err){
-        return res.status(500).json({msg:err.message})
+    try {
+      const cate = await Category.findOne();
+      res.json(cate);
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
     }
   },
-  createCategory:async (req,res)=>{
-      try{
-          const {name}=req.body;
-          const checkCategory=await Category.findOne({name});
-          if(checkCategory) return res.status(400).json({msg:"Product alreaty exists"});
+  createCategory: async (req, res) => {
+    try {
+      const { name } = req.body;
+      const checkCategory = await Category.findOne({ name });
+      if (checkCategory)
+        return res.status(400).json({ msg: "Product alreaty exists" });
 
-          const newProduct=new Category({name});
-          newProduct.save();
+      const newProduct = new Category({ name });
+      await newProduct.save();
 
-        res.json("Create sucessfull");
-      }catch(err){
-        return res.status(500).json({msg:err.message})
-      }
-  }
-
+      res.json("Create sucessfull");
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  deleteCatogory: async (req, res) => {
+    try {
+      const checkProduct = await Category.findByIdAndDelete(req.param.id);
+      res.json({ msg: "Product delete sucessfull" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 };
 
 module.exports = categoryCtr;
