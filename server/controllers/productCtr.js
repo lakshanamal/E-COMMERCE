@@ -11,7 +11,17 @@ const productCtrl={
     },
     createProduct:async (req,res)=>{
         try{
+            const {product_id,title,price,discription,content,images,category}=req.body;
+            if(!images) return res.status(400).json({msg:"No image uplaoded"})
+            const checkProduct=await Product.findOne({product_id});
+            if(checkProduct) return res.status(400).json({msg:"No image uplaoded"})
 
+            const newProduct=new Product({
+                product_id,title:title.toLowerCase(),price,discription,content,images,category
+            })
+            await newProduct.save()
+
+            res.json(newProduct);
         }catch(err){
             return res.status(500).json({msg:err.message})
         }
