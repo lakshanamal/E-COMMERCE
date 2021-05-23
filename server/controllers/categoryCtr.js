@@ -2,7 +2,7 @@ const Category = require("../models/categoryModel");
 const categoryCtr = {
   getCategories: async (req, res) => {
     try {
-      const cate = await Category.findOne();
+      const cate = await Category.find();
       res.json(cate);
     } catch (err) {
       return res.status(500).json({ msg: err.message });
@@ -27,6 +27,15 @@ const categoryCtr = {
     try {
       const checkProduct = await Category.findByIdAndDelete(req.param.id);
       res.json({ msg: "Product delete sucessfull" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  updateCategory: async (req, res) => {
+    try {
+      const { name } = req.body;
+      const updateProduct=await Category.findOneAndUpdate({ _id: req.params.id }, { name });
+      res.json("Update sucessfull");
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
