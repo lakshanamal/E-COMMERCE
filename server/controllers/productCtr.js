@@ -20,13 +20,21 @@ class APIfeature {
     this.query.find(JSON.parse(queryStr)); // search database
     return this;
   }
-  sorting() {}
+  sorting() {
+      if(this.queryString.sort){
+        const sortBy=this.queryString.sort.split(',').join(' ');
+        this.query=this.query.sort(sortBy);
+      }else{
+          this.query=this.query.sort('-createAt')   // this is default sort by method for based on created time
+      }
+      return this;   
+  }
   paginating() {}
 }
 const productCtrl = {
   getProduct: async (req, res) => {
     try {
-      const features = new APIfeature(Product.find(), req.query).filtering();
+      const features = new APIfeature(Product.find(), req.query).filtering().sorting();
       const products = await features.query; //member of APIfeature class
       //   const products=await Product.find();
       res.json(products);
