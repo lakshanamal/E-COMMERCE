@@ -15,7 +15,7 @@ const Header = () => {
             <Link to="/"><h4>Product</h4></Link>
           </li> */}
           <li className="nav-link-item">
-            <Link to="">Girls</Link>
+            <Link to="/">Girls</Link>
           </li>
           <li className="nav-link-item">
             <Link to="">Boys</Link>
@@ -30,13 +30,14 @@ const Header = () => {
       </div>
       <div className="sign">
         <div className="Cart-icon">
-          <img src="https://img.icons8.com/pastel-glyph/50/000000/fast-cart.png" />
+          <Link to='/cart'><img src="https://img.icons8.com/pastel-glyph/50/000000/fast-cart.png" /></Link>
         </div>
         <div className="Signin-icon">
-          <h5>Log In</h5>
+          <Link to='/login'><h5>Log In</h5></Link>
+          {/* <h5>Log In</h5> */}
         </div>
         <div className="Signout-icon">
-          <h5>Sign Out</h5>
+          <Link to='/register'><h5>Sign Out</h5></Link>
         </div>
       </div>
     </header>
