@@ -20,13 +20,34 @@
 }
 .sign h5{
     font-size: 18px;
+    font-weight: bold;
 }
 .nav-link-item{
     padding: 5px 10px;
 }
 .nav-link-item a{
-    font-weight: lighter;
+    font-weight: bold;
+    font-size: 18px;
 }
 .Signin-icon{
     border-right: 2px solid black;
+   
+}
+.Cart-icon{
+    position: relative;
+}
+.Cart-icon::before{
+    content: "1";
+    position: absolute;
+    width: 17px;
+    height: 17px;
+    background-color: red;
+    border-radius: 25px;
+    top: 0;
+    right: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: white;
+    
 }

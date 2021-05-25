@@ -30,7 +30,7 @@ const Header = () => {
       </div>
       <div className="sign">
         <div className="Cart-icon">
-          <img src="https://img.icons8.com/pastel-glyph/64/000000/fast-cart.png" />
+          <img src="https://img.icons8.com/pastel-glyph/50/000000/fast-cart.png" />
         </div>
         <div className="Signin-icon">
           <h5>Log In</h5>

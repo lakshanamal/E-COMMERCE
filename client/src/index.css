@@ -1,9 +1,10 @@
-@import url("http://fonts.cdnfonts.com/css/berlin-sans-fb-demi");
+@import url('http://fonts.cdnfonts.com/css/molengo');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Berlin Sans FB Demi", sans-serif;
+  font-family: 'Molengo', sans-serif;
   font-weight: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
