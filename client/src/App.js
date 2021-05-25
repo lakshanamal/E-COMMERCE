@@ -11,6 +11,7 @@ function App() {
       <Router>
         <Header />
         <MainPages/>
+        <DataProvider/>
       </Router>
     </div>
   );
