@@ -1,0 +1,32 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:0 30px;
+    color: black;
+    /* border-bottom: 2px solid rgba(0, 0, 0, 0.199); */
+    box-shadow:0 0 2px 0  rgba(0, 0, 0, 0.164) ;
+}
+.nav-links > ul {
+    display: flex;
+}
+.sign {
+    display: flex;
+    align-items: center;
+}
+
+.sign >div{
+    padding: 10px 12px;
+}
+.sign h5{
+    font-size: 18px;
+}
+.nav-link-item{
+    padding: 5px 10px;
+}
+.nav-link-item a{
+    font-weight: lighter;
+}
+.Signin-icon{
+    border-right: 2px solid black;
+}
