@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Logo from "../icon/logo.png";
 import "./header.css";
 const Header = () => {
+  const value=useState(GlobalState);
   return (
     <header className="header">
       <div className="nav-links">
