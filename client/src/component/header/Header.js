@@ -19,7 +19,7 @@ const Header = () => {
             <Link to="/">Girls</Link>
           </li>
           <li className="nav-link-item">
-            <Link to="">Boys</Link>
+            <Link to="/">Boys</Link>
           </li>
           <li className="nav-link-item">
             <Link to="">Kids</Link>
@@ -31,7 +31,7 @@ const Header = () => {
       </div>
       <div className="sign">
         <div className="Cart-icon">
-          <Link to='/cart'><img src="https://img.icons8.com/pastel-glyph/50/000000/fast-cart.png" /></Link>
+          <Link to='/cart'><img alt="" src="https://img.icons8.com/pastel-glyph/50/000000/fast-cart.png" /></Link>
         </div>
         <div className="Signin-icon">
           <Link to='/login'><h5>Log In</h5></Link>

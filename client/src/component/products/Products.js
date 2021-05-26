@@ -1,12 +1,16 @@
-import React from 'react'
-
+import React, { useContext } from "react";
+import { GlobalState } from "../../GlobalState"
 
 function Products() {
-    return (
-        <div>
-            Product
-        </div>
-    )
+  const state = useContext(GlobalState);
+  console.log(state);
+
+  return (
+    <div>
+      <h1>Hello</h1>
+      {/* <h2>{state}</h2> */}
+    </div>
+  );
 }
 
-export default Products
+export default Products;

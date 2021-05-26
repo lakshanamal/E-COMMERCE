@@ -8,11 +8,13 @@ import MainPages from './component/mainpages/pages'
 function App() {
   return (
     <div className="App">
+      <DataProvider>
       <Router>
         <Header />
         <MainPages/>
         <DataProvider/>
       </Router>
+      </DataProvider>
     </div>
   );
 }
