@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import "./login.css";
+
 function Login() {
   const [user, setUser] = useState({
     email: "",
@@ -12,24 +14,24 @@ function Login() {
     setUser({ ...user, [name]: value });
   };
 
-  const loginSubmit =async (e) => {
+  const loginSubmit = async (e) => {
     e.preventDefault();
     try {
-        await axios.post('/user/login',{...user,});
-        localStorage.setItem('firstLogin',true)
-        window.location.href='/';
-        
+      await axios.post("/user/login", { ...user });
+      localStorage.setItem("firstLogin", true);
+      window.location.href = "/";
     } catch (err) {
-        alert(err.response.data)
+      alert(err.response.data);
     }
   };
-//   useEffect(() => {
-//       console.log(user.email)
-//       console.log(user.password)
-//   })
+  //   useEffect(() => {
+  //       console.log(user.email)
+  //       console.log(user.password)
+  //   })
 
   return (
-    <div>
+    <div className="login-page">
+        <h2>Login</h2>
       <form onSubmit={loginSubmit}>
         <input
           type="email"

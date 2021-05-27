@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import './login.css'
+
 function Register() {
   const [user, setUser] = useState({
     name: "",
@@ -29,7 +31,8 @@ function Register() {
   //   })
 
   return (
-    <div>
+    <div className="login-page">
+        <h2>Register</h2>
       <form onSubmit={registerSubmit}>
       <input
           type="text"
