@@ -1,13 +1,14 @@
 import React, { createContext, useState, useEffect } from "react";
 import ProductsAPI from "./api/ProductsAPI";
 import axios from "axios";
-import UserAPI from "./api/UserAPI";
+import UserAPI from "./api/UserAPI";  // catch users logging data
+
 export const GlobalState = createContext();
 
-export const DataProvider = ({ children }) => {
+export const DataProvider = ({ children }) => {            // main function
   const [token, setToken] = useState("true");
   // console.log(ProductsAPI())
-  const state = {
+  const state = {                              // pack to export 
     state: [token, setToken],
     productsAPI: ProductsAPI(),
     userAPI: UserAPI(token),

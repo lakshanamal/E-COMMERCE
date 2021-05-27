@@ -1,28 +1,30 @@
-import React,{useState,useEffect} from 'react'
-import axios from 'axios'
+import  { useState, useEffect } from "react";
+import axios from "axios";
 
 function UserAPI(token) {
-    const [isLogged,setIsLogged]=useState(false)
-    const [isAdmin,setIsAdmin]=useState(false)
+  const [isLogged, setIsLogged] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
-    useEffect(()=>{
-        if(token){
-            const getUser=async ()=>{
-                try {
-                    const res=await axios.get('/user/infor',{
-                        headers: {Authorization:token}
-                    })
-                    console.log(res)
-                } catch (error) {
-                    alert(error.response.data.msg)
-                }
-            }
-            getUser
+  useEffect(() => {
+    if (token) {
+      const getUser = async () => {
+        try {
+          const res = await axios.get("/user/infor", {
+            headers: { Authorization: token },
+          });
+          setIsLogged(true); //if try not error then
+          res.data.role === 1 ? setIsAdmin(true) : setIsAdmin(false);
+        } catch (error) {
+          alert(error.response.data.msg);
         }
-    },[token])
-    return {
-
+      };
+      getUser();
     }
+  }, [token]);
+  return {
+    isLogged: [isLogged, setIsLogged],
+    isAdmin: [isAdmin, setIsAdmin],
+  };
 }
 
-export default UserAPI
+export default UserAPI;

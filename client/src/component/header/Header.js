@@ -1,10 +1,50 @@
-// import React, { useState, useContext } from "react";
-// import { GlobalState } from "../../GlobalState";
+import React, { useState, useContext } from "react";
+import { GlobalState } from "../../GlobalState";
 import { Link } from "react-router-dom";
 import Logo from "../icon/logo.png";
 import "./header.css";
+import axios from "axios";
+
 const Header = () => {
-  // const value=useState(GlobalState);
+  const state = useContext(GlobalState);
+  const [isLogged, setIsLogged] = state.userAPI.isLogged;
+  const [isAdmin, setIsAdmin] = state.userAPI.isAdmin;
+
+  const adminRouter = () => {
+    return (
+      <>
+        <li>
+          <Link to="/create_product"> Create Product </Link>
+        </li>
+        <li>
+          <Link to="/category"> Categories</Link>
+        </li>
+      </>
+    );
+  };
+  const loggoutUser = async () => {
+    await axios.get("/user/logout");
+    localStorage.clear();
+    setIsAdmin(false);
+    setIsLogged(false);
+  };
+  const loggedRouter = () => {
+    return (
+      <>
+        <li>
+          <Link to="/history"> History </Link>
+        </li>
+        <li>
+          <Link to="/" onClick={loggoutUser}>
+            {" "}
+            Logout
+          </Link>
+        </li>
+      </>
+    );
+  };
+
+  // console.log(value)
   return (
     <header className="header">
       <div className="nav-links">
@@ -30,16 +70,36 @@ const Header = () => {
         <img src={Logo} alt="" width="200" />
       </div>
       <div className="sign">
-        <div className="Cart-icon">
-          <Link to='/cart'><img alt="" src="https://img.icons8.com/pastel-glyph/50/000000/fast-cart.png" /></Link>
-        </div>
-        <div className="Signin-icon">
-          <Link to='/login'><h5>Log In</h5></Link>
-          {/* <h5>Log In</h5> */}
-        </div>
-        <div className="Signout-icon">
-          <Link to='/register'><h5>Sign Out</h5></Link>
-        </div>
+        {isAdmin ? (
+          ""
+        ) : (
+          <div className="Cart-icon">
+            <Link to="/cart">
+              <img
+                alt=""
+                src="https://img.icons8.com/pastel-glyph/50/000000/fast-cart.png"
+              />
+            </Link>
+          </div>
+        )}
+        {isAdmin && adminRouter()}
+        {isLogged ? (
+          loggedRouter()
+        ) : (
+          <>
+            <div className="Signin-icon">
+              <Link to="/login">
+                <h5>Log In</h5>
+              </Link>
+              {/* <h5>Log In</h5> */}
+            </div>
+            <div className="Signout-icon">
+              <Link to="/register">
+                <h5>Sign Out</h5>
+              </Link>
+            </div>
+          </>
+        )}
       </div>
     </header>
   );
