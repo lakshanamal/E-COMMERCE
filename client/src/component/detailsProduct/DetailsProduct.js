@@ -11,7 +11,7 @@ function DetailsProduct() {
   const [productDetails, setProductDetails] = useState([]);
 
   useEffect(() => {
-    if (params) {
+    if (params.id) {
       products.forEach((product) => {
         if (product._id === params.id) {
           setProductDetails(product);
