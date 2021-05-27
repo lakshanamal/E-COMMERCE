@@ -1,10 +1,10 @@
-import React, { useState, useContext } from "react";
-import { GlobalState } from "../../GlobalState";
+// import React, { useState, useContext } from "react";
+// import { GlobalState } from "../../GlobalState";
 import { Link } from "react-router-dom";
 import Logo from "../icon/logo.png";
 import "./header.css";
 const Header = () => {
-  const value=useState(GlobalState);
+  // const value=useState(GlobalState);
   return (
     <header className="header">
       <div className="nav-links">

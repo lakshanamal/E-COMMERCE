@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState } from "react";
 import ProductsAPI from "./api/ProductsAPI";
 
 export const GlobalState = createContext();
@@ -10,12 +10,11 @@ export const DataProvider = ({ children }) => {
     token: [token, setToken],
     productsAPI: ProductsAPI(),
   };
+  // console.log(state);
 
   return (
     <div>
-      <GlobalState.Provider value={state}>
-        {children}
-      </GlobalState.Provider>
+      <GlobalState.Provider value={state}>{children}</GlobalState.Provider>
     </div>
   );
 };

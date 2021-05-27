@@ -1,14 +1,20 @@
 import React, { useContext } from "react";
-import { GlobalState } from "../../GlobalState"
-
+import { GlobalState } from "../../GlobalState";
+import ProductItem from '../until/ProductItem/ProductItem'
 function Products() {
   const state = useContext(GlobalState);
-  console.log(state);
-
+  const [products] = state.productsAPI.products;
+  console.log(products);
   return (
     <div>
       <h1>Hello</h1>
-      {/* <h2>{state}</h2> */}
+      {products.map((product) => {
+        return (
+          <ProductItem key={product._id}/>
+  
+          // console.log(product._id)
+        );
+      })}
     </div>
   );
 }
