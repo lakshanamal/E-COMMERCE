@@ -1,0 +1,28 @@
+.load-page {
+  background-color: white;
+  overflow: hidden;
+}
+
+.loader {
+  width: 200px;
+  height: 200px;
+  margin: 100px auto;
+}
+
+.loader div {
+  width: calc(100% - 15px);
+  height: calc(100% - 15px);
+  border: 10px solid #fff;
+  border-top: 10px solid rgb(3, 68, 112);
+  border-radius: 50%;
+  animation: rotate 10s linear infinite alternate;
+}
+
+@keyframes rotate {
+  50% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: 360deg;
+  }
+}
