@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { GlobalState } from "../../GlobalState";
+import ProductItem from '../until/ProductItem/ProductItem'
 import "./DetailsProducts.css";
 
 function DetailsProduct() {
@@ -21,6 +22,7 @@ function DetailsProduct() {
   console.log(productDetails);
   if (productDetails.length === 0) return null;
   return (
+      <>
     <div className="details">
       <img src={productDetails.images.url} alt="" />
       <div className="box-details">
@@ -37,6 +39,17 @@ function DetailsProduct() {
         </Link>
       </div>
     </div>
+    <div className="related-item">
+        <h2>Related products</h2>
+        <div>
+            {products.map(product=>{
+                return product.category===productDetails.category ?
+                <ProductItem key={product._id}  product={product}/> :null
+            })
+        }
+        </div>
+    </div>
+    </>
   );
 }
 
