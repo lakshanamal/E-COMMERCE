@@ -36,8 +36,8 @@
 .Cart-icon{
     position: relative;
 }
-.Cart-icon::before{
-    content: "1";
+.Cart-icon span{
+ 
     position: absolute;
     width: 17px;
     height: 17px;

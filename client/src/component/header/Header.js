@@ -10,14 +10,15 @@ const Header = () => {
 
   const [isLogged, setIsLogged] = state.userAPI.isLogged;
   const [isAdmin, setIsAdmin] = state.userAPI.isAdmin;
+  const [cart] = state.userAPI.cart;
 
   const adminRouter = () => {
     return (
       <>
-        <li  className="nav-link-item">
+        <li className="nav-link-item">
           <Link to="/create_product"> Create Product </Link>
         </li>
-        <li  className="nav-link-item">
+        <li className="nav-link-item">
           <Link to="/category"> Categories</Link>
         </li>
       </>
@@ -32,7 +33,7 @@ const Header = () => {
   const loggedRouter = () => {
     return (
       <>
-        <li  className="nav-link-item">
+        <li className="nav-link-item">
           <Link to="/history"> History </Link>
         </li>
         <li className="nav-link-item">
@@ -65,11 +66,13 @@ const Header = () => {
           <li className="nav-link-item">
             <Link to="">Kids</Link>
           </li>
-          {
-            isAdmin ? <li className="nav-link-item">
-            <Link to="">Product</Link>
-          </li> : ''
-          }
+          {isAdmin ? (
+            <li className="nav-link-item">
+              <Link to="">Product</Link>
+            </li>
+          ) : (
+            ""
+          )}
         </ul>
       </div>
       <div className="logo">
@@ -81,6 +84,7 @@ const Header = () => {
         ) : (
           <div className="Cart-icon">
             <Link to="/cart">
+              <span>{cart.length}</span>
               <img
                 alt=""
                 src="https://img.icons8.com/pastel-glyph/50/000000/fast-cart.png"
