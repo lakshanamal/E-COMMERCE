@@ -30,7 +30,7 @@ function Cart() {
               <span>{product.quantity}</span>
               <button>+</button>
 
-              <div className="delete">X</div>
+              <div className="delete">X</div> 
             </div>
           </div>
         </div>
