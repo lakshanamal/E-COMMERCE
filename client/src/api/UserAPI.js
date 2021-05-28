@@ -13,11 +13,10 @@ function UserAPI(token) {
       // console.log(token);
       setIsLogged(true); //if try not error then
       res.data.role === 1 ? setIsAdmin(true) : setIsAdmin(false);
-    //   console.log(res);
+
     } catch (error) {
       alert(error.response.data.msg);
     }
-
   };
   useEffect(() => {
     if (token) {

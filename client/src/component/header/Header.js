@@ -7,16 +7,17 @@ import axios from "axios";
 
 const Header = () => {
   const state = useContext(GlobalState);
+
   const [isLogged, setIsLogged] = state.userAPI.isLogged;
   const [isAdmin, setIsAdmin] = state.userAPI.isAdmin;
 
   const adminRouter = () => {
     return (
       <>
-        <li>
+        <li  className="nav-link-item">
           <Link to="/create_product"> Create Product </Link>
         </li>
-        <li>
+        <li  className="nav-link-item">
           <Link to="/category"> Categories</Link>
         </li>
       </>
@@ -31,10 +32,10 @@ const Header = () => {
   const loggedRouter = () => {
     return (
       <>
-        <li>
+        <li  className="nav-link-item">
           <Link to="/history"> History </Link>
         </li>
-        <li>
+        <li className="nav-link-item">
           <Link to="/" onClick={loggoutUser}>
             {" "}
             Logout
@@ -66,7 +67,7 @@ const Header = () => {
           </li>
           {
             isAdmin ? <li className="nav-link-item">
-            <Link to="">Kids</Link>
+            <Link to="">Product</Link>
           </li> : ''
           }
         </ul>
@@ -96,7 +97,6 @@ const Header = () => {
               <Link to="/login">
                 <h5>Log In</h5>
               </Link>
-              {/* <h5>Log In</h5> */}
             </div>
             <div className="Signout-icon">
               <Link to="/register">
