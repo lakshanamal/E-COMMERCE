@@ -1,0 +1,8 @@
+.amount button{
+    width: 40px;
+    height: 40px;
+    border: 1px solid #777;
+}
+.amount span{
+    padding: 20px ;
+}
