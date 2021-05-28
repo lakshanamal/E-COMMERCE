@@ -20,11 +20,11 @@ const userCtr = {
         email: email,
         password: hashPassword,
       });
-      const savedUser = await newUser.save();
+      await newUser.save();
       // const savedUser = await User.deleteMany({});
 
-      const accessToken = createAcessToken({ id: savedUser._id });
-      const refreshToken = createRefreshToken({ id: savedUser._id });
+      const accessToken = createAcessToken({ id: newUser._id });
+      const refreshToken = createRefreshToken({ id: newUser._id });
 
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
@@ -62,14 +62,15 @@ const userCtr = {
       if (!checkUser) return res.status(400).json("Email dosn't exists");
 
       const checkPassword = await bcrypt.compare(password, checkUser.password);
-      if (!checkPassword)
-        return res.status(400).json({ msg: "Password is wrong" });
+      if (!checkPassword) return res.status(400).json("Password is wrong");
 
       const acessToken = createAcessToken({ id: checkUser._id });
       const refreshToken = createRefreshToken({ id: checkUser._id });
 
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
+        // path:  `/user/refresh_token`,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       });
       res.json({ acessToken });
     } catch (err) {
@@ -86,17 +87,18 @@ const userCtr = {
   },
   getUser: async (req, res) => {
     try {
-      const user = await User.findById(req.user.id).select('-password');
+      const user = await User.findById(req.user.id).select("-password");
       if (!user) return res.status(400).json({ msg: "user doesnt exists" });
       res.json(user);
+      // console.log(user);
     } catch (err) {
-      return res.status(500).json({msg:err.message});
+      return res.status(500).json({ msg: err.message });
     }
   },
 };
 
 const createAcessToken = (id) => {
-  return jwt.sign(id, process.env.ACESS_TOKEN, { expiresIn: "1d" });
+  return jwt.sign(id, process.env.ACESS_TOKEN, { expiresIn: "11m" });
 };
 
 const createRefreshToken = (id) => {

@@ -64,6 +64,11 @@ const Header = () => {
           <li className="nav-link-item">
             <Link to="">Kids</Link>
           </li>
+          {
+            isAdmin ? <li className="nav-link-item">
+            <Link to="">Kids</Link>
+          </li> : ''
+          }
         </ul>
       </div>
       <div className="logo">
