@@ -1,14 +1,14 @@
 import axios from "axios";
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { GlobalState } from "../../GlobalState";
-import PaypalButton from './PaypalButton'
+import PaypalButton from "./PaypalButton";
 import "./cart.css";
 
 function Cart() {
   const state = useContext(GlobalState);
   const [cart, setCart] = state.userAPI.cart;
-  const [token] =state.state
+  const [token] = state.state;
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
@@ -24,9 +24,8 @@ function Cart() {
 
   const increment = (id) => {
     cart.forEach((item) => {
-      if (item._id == id) {
+      if (item._id === id) {
         item.quantity += 1;
-
       }
     });
     setCart([...cart]);
@@ -45,29 +44,40 @@ function Cart() {
   };
 
   const removeProduct = (id) => {
-    {
-      if (window.confirm("Do you want to delete this product ?")) {
-        cart.forEach((item, index) => {
-          if (item._id === id) {
-            cart.splice(index, 1);
-          }
-        });
-        setCart([...cart]);
-        addToCart();
-      }
+    if (window.confirm("Do you want to delete this product ?")) {
+      cart.forEach((item, index) => {
+        if (item._id === id) {
+          cart.splice(index, 1);
+        }
+      });
+      setCart([...cart]);
+      addToCart();
     }
   };
 
-  const tranSucess= async(product)=>{
-      console.log(product)
+  const tranSucess = async (payment) => {
+    console.log(payment);
+    const { paymentID, address } = payment;
 
-  }
+    await axios.post(
+      "/api/payment",
+      { cart, paymentID, address },
+      { headers: { Authorization: token } }
+    );
 
-  const addToCart=async ()=>{
-      await axios.patch('/user/addCart',{cart},{
-          headers:{Authorization:token}
-      })
-  }
+    setCart([]);
+    alert("You have sucessfully placed an order");
+  };
+
+  const addToCart = async () => {
+    await axios.patch(
+      "/user/addCart",
+      { cart },
+      {
+        headers: { Authorization: token },
+      }
+    );
+  };
 
   if (cart.length === 0)
     return (
@@ -92,15 +102,20 @@ function Cart() {
               <span>{product.quantity}</span>
               <button onClick={() => increment(product._id)}>+</button>
 
-              <div className="delete" onClick={() => removeProduct(product._id)}>X</div>
+              <div
+                className="delete"
+                onClick={() => removeProduct(product._id)}
+              >
+                X
+              </div>
             </div>
           </div>
         </div>
       ))}
       <div className="total">
         <h3>Total :$ {total}</h3>
-        <PaypalButton total={total}  tranSucess={tranSucess}/>
-      </div> 
+        <PaypalButton total={total} tranSucess={tranSucess} />
+      </div>
     </>
   );
 }
