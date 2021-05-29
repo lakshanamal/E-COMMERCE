@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { GlobalState } from "../../GlobalState";
+import PaypalButton from './PaypalButton'
 import "./cart.css";
 
 function Cart() {
@@ -57,6 +58,11 @@ function Cart() {
     }
   };
 
+  const tranSucess= async(product)=>{
+      console.log(product)
+
+  }
+
   const addToCart=async ()=>{
       await axios.patch('/user/addCart',{cart},{
           headers:{Authorization:token}
@@ -93,8 +99,8 @@ function Cart() {
       ))}
       <div className="total">
         <h3>Total :$ {total}</h3>
-        <Link to="#!">Payment</Link>
-      </div>
+        <PaypalButton total={total}  tranSucess={tranSucess}/>
+      </div> 
     </>
   );
 }
