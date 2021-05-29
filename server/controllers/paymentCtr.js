@@ -28,6 +28,9 @@ const paymentCtr = {
         address,
       });
     //   console.log({ newPayment });
+    cart.filter(item=>{
+      return sold(item._id,item.quantity,item.sold)
+    })
       await newPayment.save()
      res.json({newPayment})
       
@@ -38,4 +41,9 @@ const paymentCtr = {
   },
 };
 
+const sold=async(id,quantity,oldSold)=>{
+  await Products.findOneAndUpdate({_id:id},{
+    sold:quatity+oldSold
+  })
+}
 module.exports = paymentCtr;

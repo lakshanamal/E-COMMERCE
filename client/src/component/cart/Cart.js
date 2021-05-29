@@ -29,7 +29,7 @@ function Cart() {
       }
     });
     setCart([...cart]);
-    addToCart();
+    addToCart(cart);
   };
 
   const decrement = (id) => {
@@ -40,7 +40,7 @@ function Cart() {
       }
     });
     setCart([...cart]);
-    addToCart();
+    addToCart(cart);
   };
 
   const removeProduct = (id) => {
@@ -51,12 +51,11 @@ function Cart() {
         }
       });
       setCart([...cart]);
-      addToCart();
+      addToCart(cart);
     }
   };
 
   const tranSucess = async (payment) => {
-    console.log(payment);
     const { paymentID, address } = payment;
 
     await axios.post(
@@ -64,12 +63,12 @@ function Cart() {
       { cart, paymentID, address },
       { headers: { Authorization: token } }
     );
-
     setCart([]);
+    addToCart([]);
     alert("You have sucessfully placed an order");
   };
 
-  const addToCart = async () => {
+  const addToCart = async (cart) => {
     await axios.patch(
       "/user/addCart",
       { cart },
@@ -79,11 +78,11 @@ function Cart() {
     );
   };
 
-  if (cart.length === 0)
+  if (cart.length === 0) {
     return (
       <h2 style={{ textAlign: "center", fontSize: "5rem" }}> Cart Empty</h2>
     );
-
+  }
   return (
     <>
       {cart.map((product) => (

@@ -98,7 +98,7 @@ const userCtr = {
   addCart: async (req, res) => {
     try {
       const user = await User.findById(req.user.id);
-      
+
       if (!user) return res.status(400).json({ msg: "User does not exits" });
 
       await User.findOneAndUpdate(
@@ -109,7 +109,7 @@ const userCtr = {
       );
 
       return res.json({ msg: "Added to cart" });
-      return res.json(req.body.cart);
+      // return res.json(req.body.cart);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
