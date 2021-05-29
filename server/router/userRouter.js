@@ -8,5 +8,6 @@ router.get('/logout',userCtr.logout);
 router.get('/refreshToken',userCtr.refreshToken);
 router.get('/infor',auth,userCtr.getUser);
 router.patch('/addcart',auth,userCtr.addCart);
+router.get('/history',auth,userCtr.history);
  
 module.exports=router;

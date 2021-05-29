@@ -5,6 +5,7 @@ import Login from "../auth/Login";
 import Register from "../auth/Register";
 import ProductDetails from "../detailsProduct/DetailsProduct";
 import Cart from "../cart/Cart";
+import History from "../history/OrderHistory";
 import NotFound from "../until/not_found/NotFound";
 import { GlobalState } from "../../GlobalState";
 
@@ -22,7 +23,7 @@ function Pages() {
         component={isLogged ? NotFound : Register}
       />
       <Route path="/cart" exact component={Cart} />
-
+      <Route path="/history" exact component={isLogged ? History : NotFound} />
       <Route path="*" exact component={NotFound} />
     </Switch>
   );
