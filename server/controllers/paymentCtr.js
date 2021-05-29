@@ -43,7 +43,7 @@ const paymentCtr = {
 
 const sold=async(id,quantity,oldSold)=>{
   await Products.findOneAndUpdate({_id:id},{
-    sold:quatity+oldSold
+    sold:quantity+oldSold
   })
 }
 module.exports = paymentCtr;
