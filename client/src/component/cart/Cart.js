@@ -1,24 +1,56 @@
-import React, { useState,useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { GlobalState } from "../../GlobalState";
 import "./cart.css";
 
 function Cart() {
   const state = useContext(GlobalState);
-  const [cart] = state.userAPI.cart;
+  const [cart, setCart] = state.userAPI.cart;
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
     const getUser = () => {
       const total = cart.reduce((prev, item) => {
-        return prev + (item.price * item.quantity);
-      },0);
+        return prev + item.price * item.quantity;
+      }, 0);
       setTotal(total);
-      console.log(total)
+      console.log(total);
     };
 
-    getUser()
+    getUser();
   }, [cart]);
+
+  const increment = (id) => {
+    cart.forEach((item) => {
+      if (item._id == id) {
+        item.quantity += 1;
+      }
+    });
+    setCart([...cart]);
+  };
+
+  const decrement = (id) => {
+    cart.forEach((item) => {
+      if (item._id === id) {
+        item.quantity -= 1;
+        if (item.quantity === 0) item.quantity = 1;
+      }
+    });
+    setCart([...cart]);
+  };
+
+  const removeProduct = (id) => {
+    {
+      if (window.confirm("Do you want to delete this product ?")) {
+        cart.forEach((item, index) => {
+          if (item._id === id) {
+            cart.splice(index, 1);
+          }
+        });
+        setCart([...cart]);
+      }
+    }
+  };
 
   if (cart.length === 0)
     return (
@@ -39,11 +71,11 @@ function Cart() {
             <p>{product.discription}</p>
             <p>{product.context}</p>
             <div className="amount">
-              <button>-</button>
+              <button onClick={() => decrement(product._id)}>-</button>
               <span>{product.quantity}</span>
-              <button>+</button>
+              <button onClick={() => increment(product._id)}>+</button>
 
-              <div className="delete">X</div>
+              <div className="delete" onClick={() => removeProduct(product._id)}>X</div>
             </div>
           </div>
         </div>
