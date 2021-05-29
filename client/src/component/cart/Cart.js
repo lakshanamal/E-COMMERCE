@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState,useEffect,useContext } from "react";
 import { Link } from "react-router-dom";
 import { GlobalState } from "../../GlobalState";
 import "./cart.css";
@@ -6,6 +6,19 @@ import "./cart.css";
 function Cart() {
   const state = useContext(GlobalState);
   const [cart] = state.userAPI.cart;
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    const getUser = () => {
+      const total = cart.reduce((prev, item) => {
+        return prev + (item.price * item.quantity);
+      },0);
+      setTotal(total);
+      console.log(total)
+    };
+
+    getUser()
+  }, [cart]);
 
   if (cart.length === 0)
     return (
@@ -30,13 +43,13 @@ function Cart() {
               <span>{product.quantity}</span>
               <button>+</button>
 
-              <div className="delete">X</div> 
+              <div className="delete">X</div>
             </div>
           </div>
         </div>
       ))}
       <div className="total">
-        <h3>Total :$ 0</h3>
+        <h3>Total :$ {total}</h3>
         <Link to="#!">Payment</Link>
       </div>
     </>
