@@ -10,6 +10,7 @@ import HistoryDetails from "../history/OrderDetails";
 import NotFound from "../until/not_found/NotFound";
 import { GlobalState } from "../../GlobalState";
 import Categories from '../Categories/Categories'
+import CreateProduct from '../CreateProduct/CreateProduct'
 
 function Pages() {
   const state = useContext(GlobalState);
@@ -28,6 +29,7 @@ function Pages() {
       <Route path="/cart" exact component={Cart} />
       <Route path="/category" exact component={isAdmin ? Categories : NotFound} />
       <Route path="/history" exact component={isLogged ? History : NotFound} />
+      <Route path="/create_product" exact component={isAdmin ? CreateProduct : NotFound} />
       <Route
         path="/history/:id"
         exact

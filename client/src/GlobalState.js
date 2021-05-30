@@ -15,19 +15,15 @@ export const DataProvider = ({ children }) => {
     state: [token, setToken],
     productsAPI: ProductsAPI(),
     userAPI: UserAPI(token),
-    category: Category()
-  };
-
-  const refreshToken = async () => {
-    const res = await axios.get("/user/refreshToken");
-    setToken(res.data.acessToken);
+    category: Category(),
   };
 
   useEffect(() => {
-    const firstLogin = localStorage.getItem("firstLogin");
-    if (firstLogin) {
-      refreshToken();
-    }
+    const refreshToken = async () => {
+      const res = await axios.get("/user/refreshToken");
+      setToken(res.data.acessToken);
+    };
+    refreshToken();
   }, []);
   // console.log(state);
 
