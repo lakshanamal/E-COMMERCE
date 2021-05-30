@@ -25,7 +25,7 @@ const categoryCtr = {
   },
   deleteCatogory: async (req, res) => {
     try {
-      const checkProduct = await Category.findByIdAndDelete(req.param.id);
+      await Category.findByIdAndDelete(req.params.id);
       res.json({ msg: "Product delete sucessfull" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });

@@ -47,7 +47,17 @@ function Categories() {
     setOnEdit(true);
   };
 
-  const deletCategory = () => {};
+  const deletCategory = async (id) => {
+    try {
+      const res = await axios.delete(`/api/category/${id}`, {
+        headers: { Authorization: token },
+      });
+      alert(res.data.msg);
+      setCallback(!callback);
+    } catch (err) {
+      alert(err.response.data);
+    }
+  };
   return (
     <div className="categories">
       <form onSubmit={createCategory}>
@@ -78,7 +88,7 @@ function Categories() {
                 </button>
                 <button
                   onClick={() => {
-                    deletCategory(category._id, category.name);
+                    deletCategory(category._id);
                   }}
                 >
                   Delete
