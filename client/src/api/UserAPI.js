@@ -6,6 +6,7 @@ function UserAPI(token) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [cart, setCart] = useState([]);
   const [history, setHistory] = useState([]);
+  const [callback,setCallback]=useState(false)
 
   useEffect(() => {
     if (token) {
@@ -39,7 +40,7 @@ function UserAPI(token) {
       getHistory();
     }
     // console.log(token)
-  }, [token]);
+  }, [token,callback]);
   const addCart = async (product) => {
     if (!isLogged) return alert("Please login to continue buying");
 
@@ -66,7 +67,8 @@ function UserAPI(token) {
     isAdmin: [isAdmin, setIsAdmin],
     cart: [cart, setCart],
     addCart: addCart,
-    history:[history, setHistory]
+    history:[history, setHistory],
+    callback:[callback,setCallback]
   };
 }
 

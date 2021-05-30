@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { GlobalState } from "../../GlobalState";
 import { Link } from "react-router-dom";
-
+import './history.css'
 function OrderHistory() {
   const state = useContext(GlobalState);
   const [history] = state.userAPI.history;
@@ -26,7 +26,7 @@ function OrderHistory() {
               return (
                 <tr key={item._id}>
                   <td>{item.paymentID}</td>
-                  <td>{item.createAt}</td>
+                  <td>{item.createdAt}</td>
                   <td>
                     <Link to={`/history/${item._id}`}>View</Link>
                   </td>
