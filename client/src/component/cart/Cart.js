@@ -10,7 +10,7 @@ function Cart() {
   const [cart, setCart] = state.userAPI.cart;
   const [token] = state.state;
   const [total, setTotal] = useState(0);
-  const [callback,setCallback]=state.userAPI.callback
+ 
 
   useEffect(() => {
     const getUser = () => {
@@ -68,7 +68,7 @@ function Cart() {
     addToCart([]);
   
     alert("You have sucessfully placed an order");
-    setCallback(!callback)
+
   };
 
   const addToCart = async (cart) => {
