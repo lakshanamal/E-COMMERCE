@@ -18,7 +18,7 @@ const categoryCtr = {
       const newProduct = new Category({ name });
       await newProduct.save();
 
-      res.json("Create sucessfull");
+      res.json({msg:"Create sucessfull"});
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 
 function CategoryAPI() {
   const [categories, setCategories] = useState([]);
+  const [callback,setCallback]=useState(false)
 
   useEffect(() => {
     const getCategory = async () => {
@@ -10,10 +11,11 @@ function CategoryAPI() {
       setCategories(res.data);
     };
     getCategory();
-  }, []);
+  }, [callback]);
 
   return {
     categories: [categories, setCategories],
+    callback:[callback,setCallback]
   };
 }
 
