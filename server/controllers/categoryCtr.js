@@ -35,7 +35,7 @@ const categoryCtr = {
     try {
       const { name } = req.body;
       const updateProduct=await Category.findOneAndUpdate({ _id: req.params.id }, { name });
-      res.json("Update sucessfull");
+      res.json({msg:"Update sucessfull"});
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

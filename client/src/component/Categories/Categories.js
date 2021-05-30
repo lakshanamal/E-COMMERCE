@@ -7,26 +7,47 @@ function Categories() {
   const [categories] = state.category.categories;
   const [category, setCategory] = useState("");
   const [token] = state.state;
-  const [callback,setCallback] = state.category.callback;
+  const [callback, setCallback] = state.category.callback;
+  const [onEdit, setOnEdit] = useState(false);
+  const [id, setId] = useState("");
 
   const createCategory = async (e) => {
     e.preventDefault();
-
     try {
-      const res = await axios.post(
-        "/api/category",
-        { name: category },
-        {
-          headers: { Authorization: token },
-        }
-      );
-      setCategory('')
-      setCallback(!callback)
-      alert(res.data.msg);
+      if (onEdit) {
+        const res = await axios.put(
+          `/api/category/${id}`,
+          { name: category },
+          {
+            headers: { Authorization: token },
+          }
+        );
+        alert(res.data.msg);
+      } else {
+        const res = await axios.post(
+          "/api/category",
+          { name: category },
+          {
+            headers: { Authorization: token },
+          }
+        );
+        alert(res.data.msg);
+      }
+      setOnEdit(false);
+      setCategory("");
+      setCallback(!callback);
     } catch (err) {
       alert(err.response.data.msg);
     }
   };
+
+  const editCategory = (id, name) => {
+    setId(id);
+    setCategory(name);
+    setOnEdit(true);
+  };
+
+  const deletCategory = () => {};
   return (
     <div className="categories">
       <form onSubmit={createCategory}>
@@ -40,7 +61,7 @@ function Categories() {
           }}
           required
         />
-        <button type="submit">Save</button>
+        <button type="submit">{onEdit ? "Update" : "Save"}</button>
       </form>
       <div className="col">
         {categories.map((category) => {
@@ -48,8 +69,20 @@ function Categories() {
             <div className="row" key={category._id}>
               <p>{category.name}</p>
               <div>
-                <button>Edit</button>
-                <button>Delete</button>
+                <button
+                  onClick={() => {
+                    editCategory(category._id, category.name);
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => {
+                    deletCategory(category._id, category.name);
+                  }}
+                >
+                  Delete
+                </button>
               </div>
             </div>
           );
