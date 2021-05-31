@@ -7,7 +7,7 @@ import axios from "axios";
 
 function Products() {
   const state = useContext(GlobalState);
-
+  const [token]=state.state
   const [products, setProducts] = state.productsAPI.products;
   const [isAdmin] = state.userAPI.isAdmin;
 
@@ -29,6 +29,7 @@ function Products() {
               product={product}
               key={product._id}
               isAdmin={isAdmin}
+              token={token}
             />
 
             // console.log(product._id)
