@@ -54,6 +54,22 @@ function CreateProduct() {
     }
   };
 
+  const handleDelect = async () => {
+    try {
+      if (!isAdmin) return alert("You're not admin");
+      setLoading(true);
+      await axios.post(
+        "/api/destory",
+        { public_id: images.public_id },
+        { headers: { Authorization: token } }
+      );
+      setLoading(false);
+      setImages(false);
+    } catch (err) {
+      alert(err.response.data.msg);
+    }
+  };
+
   return (
     <div className="create_product">
       <div className="upload">
@@ -65,7 +81,7 @@ function CreateProduct() {
         ) : (
           <div id="file_img" style={styleUpload}>
             <img src={images ? images.url : ""} alt="" />
-            <span>X</span>
+            <span onClick={handleDelect}>X</span>
           </div>
         )}
       </div>
