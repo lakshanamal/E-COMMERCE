@@ -1,9 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { GlobalState } from "../../GlobalState";
 import Loading from "../until/loading/Loading";
 import axios from "axios";
 import "./createProduct.css";
-import {useHistory} from 'react-router-dom'
+import { useHistory, useParams } from "react-router-dom";
 
 const initialState = {
   product_id: "",
@@ -12,6 +12,7 @@ const initialState = {
   discription: "How to and tutorial video of cool CSS ",
   content: "kjndsfnjksd  jnsf s fiejijsfe",
   category: "",
+  _id: "",
 };
 function CreateProduct() {
   const state = useContext(GlobalState);
@@ -21,8 +22,26 @@ function CreateProduct() {
   const [isAdmin] = state.userAPI.isAdmin;
   const [loading, setLoading] = useState(false);
   const [token] = state.state;
+  const params = useParams();
+  const [editProduct] = state.productsAPI.products;
+  const [onEdit, setOnEdit] = useState(false);
 
-  const history=useHistory()
+  useEffect(() => {
+    if (params.id) {
+      setOnEdit(true);
+      editProduct.forEach((product) => {
+        if (product._id === params.id) {
+          setProduct(product);
+          setImages(product.images);
+        }
+      });
+    } else {
+      setOnEdit(false);
+      setProduct(initialState);
+      setImages(product.images);
+    }
+  }, [params.id]);
+  const history = useHistory();
 
   const styleUpload = {
     display: images ? "block" : "none",
@@ -81,17 +100,30 @@ function CreateProduct() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!isAdmin) return alert("You're not admin");
+    if (!images) return alert("No Image upload");
     try {
-      if (!isAdmin) return alert("You're not admin");
-      if (!images) return alert("No Image upload");
-      await axios.post("/api/products", {...product,images}, {
-        headers: { Authorization: token },
-      });
-
+      if (onEdit) {
+        await axios.put(
+          `/api/products/${product._id}`,
+          { ...product, images },
+          {
+            headers: { Authorization: token },
+          }
+        );
+      } else {
+        await axios.post(
+          "/api/products",
+          { ...product, images },
+          {
+            headers: { Authorization: token },
+          }
+        );
+      }
       setImages(false);
       setProduct(initialState);
       alert("Product sucessfuly created");
-      history.push("/")
+      history.push("/");
     } catch (err) {
       alert(err.response.data.msg);
     }
@@ -122,6 +154,7 @@ function CreateProduct() {
             required
             value={product.product_id}
             onChange={handleChangeInput}
+            disabled={onEdit}
           />
         </div>
         <div className="row">
@@ -187,7 +220,7 @@ function CreateProduct() {
             })}
           </select>
         </div>
-        <button type="submit">Create</button>
+        <button type="submit">{onEdit ? "Save" : "Create"}</button>
       </form>
     </div>
   );
