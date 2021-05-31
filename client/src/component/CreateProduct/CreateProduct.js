@@ -25,6 +25,7 @@ function CreateProduct() {
   const params = useParams();
   const [editProduct] = state.productsAPI.products;
   const [onEdit, setOnEdit] = useState(false);
+  const [callback,setCallback]=state.productsAPI.callback
 
   useEffect(() => {
     if (params.id) {
@@ -120,8 +121,7 @@ function CreateProduct() {
           }
         );
       }
-      setImages(false);
-      setProduct(initialState);
+      setCallback(!callback)
       alert("Product sucessfuly created");
       history.push("/");
     } catch (err) {
@@ -220,7 +220,7 @@ function CreateProduct() {
             })}
           </select>
         </div>
-        <button type="submit">{onEdit ? "Save" : "Create"}</button>
+        <button type="submit">{onEdit ? "Update" : "Create"}</button>
       </form>
     </div>
   );
