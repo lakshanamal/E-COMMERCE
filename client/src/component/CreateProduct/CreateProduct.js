@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { GlobalState } from "../../GlobalState";
 import Loading from "../until/loading/Loading";
 import axios from "axios";
-import './createProduct.css'
+import "./createProduct.css";
 
 const initialState = {
   product_id: "",
@@ -17,15 +17,57 @@ function CreateProduct() {
   const [product, setProduct] = useState(initialState);
   const [categories] = state.category.categories;
   const [images, setImages] = useState(false);
-  // console.log(state.category)
+  const [isAdmin] = state.userAPI.isAdmin;
+  const [loading, setLoading] = useState(false);
+  const [token] = state.state;
+
+  const styleUpload = {
+    display: images ? "block" : "none",
+  };
+
+  const handleUplaod = async (e) => {
+    e.preventDefault();
+    try {
+      if (!isAdmin) return alert("You are not an admin");
+      const file = e.target.files[0];
+      if (!file) return alert("File doesnt exsit");
+
+      if (file.size > 1024 * 1024) return alert("File size is too large");
+
+      if (file.type !== "image/jpeg" && file.type !== "image/png")
+        return alert("File format incorrect");
+
+      let formData = new FormData();
+      formData.append("file", file);
+
+      setLoading(true);
+      const res = await axios.post("/api/upload", formData, {
+        headers: {
+          "content-type": "multipart/form-data",
+          Authorization: token,
+        },
+      });
+      setLoading(false);
+      setImages(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="create_product">
       <div className="upload">
-        <input type="file" name="file" id="file_up" />
-        <div id="file_img">
-          <img src='https://ath2.unileverservices.com/wp-content/uploads/sites/4/2020/02/IG-annvmariv-1024x1016.jpg' alt="" />
-          <span>X</span>
-        </div>
+        <input type="file" name="file" id="file_up" onChange={handleUplaod} />
+        {loading ? (
+          <div className="file_img">
+            <Loading />
+          </div>
+        ) : (
+          <div id="file_img" style={styleUpload}>
+            <img src={images ? images.url : ""} alt="" />
+            <span>X</span>
+          </div>
+        )}
       </div>
       <form>
         <div className="row">
@@ -82,15 +124,15 @@ function CreateProduct() {
         </div>
         <div className="row">
           <label htmlFor="category">Category</label>
-          <select name="category" value={product.category} >
-              <option value="">Please select a category</option>
-              {
-                  categories.map((category)=>{
-                      return(
-                          <option value={category.name} key={category._id}>{category.name}</option>
-                      )
-                  })
-              }
+          <select name="category" value={product.category}>
+            <option value="">Please select a category</option>
+            {categories.map((category) => {
+              return (
+                <option value={category.name} key={category._id}>
+                  {category.name}
+                </option>
+              );
+            })}
           </select>
         </div>
         <button type="submit">Create</button>

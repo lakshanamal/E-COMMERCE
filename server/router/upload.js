@@ -12,7 +12,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDNARY_SECRET,
 });
 
-router.post("/upload", (req, res) => {
+router.post("/upload",auth,authAdmin, (req, res) => {
   try {
     if (!req.files || Object.keys(req.files).length == 0)
       return res.status(400).json({ msg: "No files were uploaded" });
@@ -41,7 +41,7 @@ router.post("/upload", (req, res) => {
   }
 });
 
-router.post("/destory", (req, res) => {
+router.post("/destory",auth,authAdmin, (req, res) => {
   try {
     const { public_id } = req.body;
     if (!public_id) return res.status(400).json({ msg: "No image select" });
