@@ -3,6 +3,7 @@ import { GlobalState } from "../../GlobalState";
 import Loading from "../until/loading/Loading";
 import axios from "axios";
 import "./createProduct.css";
+import {useHistory} from 'react-router-dom'
 
 const initialState = {
   product_id: "",
@@ -20,6 +21,8 @@ function CreateProduct() {
   const [isAdmin] = state.userAPI.isAdmin;
   const [loading, setLoading] = useState(false);
   const [token] = state.state;
+
+  const history=useHistory()
 
   const styleUpload = {
     display: images ? "block" : "none",
@@ -88,6 +91,7 @@ function CreateProduct() {
       setImages(false);
       setProduct(initialState);
       alert("Product sucessfuly created");
+      history.push("/")
     } catch (err) {
       alert(err.response.data.msg);
     }

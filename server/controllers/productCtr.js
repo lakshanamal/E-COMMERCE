@@ -66,7 +66,7 @@ const productCtrl = {
       if (!images) return res.status(400).json({ msg: "No image uplaoded" });
       const checkProduct = await Product.findOne({ product_id });
       if (checkProduct)
-        return res.status(400).json({ msg: "No image uplaoded" });
+        return res.status(400).json({ msg: "This product already exists" });
 
       const newProduct = new Product({
         product_id,
