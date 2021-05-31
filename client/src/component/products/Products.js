@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from "react";
 import { GlobalState } from "../../GlobalState";
 import ProductItem from "../until/ProductItem/ProductItem";
 import Loading from "../until/loading/Loading";
+import Filters from './Filters'
+
 import "./header.css";
 
 
@@ -13,6 +15,7 @@ function Products() {
 
   return (
     <>
+    <Filters/>
       <div className="products">
         {products.map((product) => {
           return (
@@ -21,6 +24,7 @@ function Products() {
               key={product._id}
               isAdmin={isAdmin}
               token={token}
+              setProducts={setProducts}
             />
 
             // console.log(product._id)

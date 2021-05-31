@@ -3,9 +3,10 @@ import React,{useContext} from "react";
 import BtnRender from "./BtnRender";
 import { GlobalState } from "../../../GlobalState";
 
-function ProductItem({ product, isAdmin, token }) {
+function ProductItem({ product, isAdmin, token,setProduct }) {
   const state = useContext(GlobalState);
   const [callback,setCallback]=state.productsAPI.callback
+
 
   const deleteProduct = async () => {
     try {
@@ -34,9 +35,16 @@ function ProductItem({ product, isAdmin, token }) {
     await axios;
   };
 
+  const handleCheck=(id)=>{
+    // product.forEach((item)=>{
+    //   if(item._id===id) product.checked=!product.checked
+    // })
+    console.log(product)
+  }
+
   return (
     <div className="product_card">
-      {isAdmin && <input type="checkbox" checked={product.checked} />}
+      {isAdmin && <input type="checkbox" checked={product.checked} onChange={()=>handleCheck(product._id)} /> }
       <img src={product.images.url} alt="" />
 
       <div className="product_box">
