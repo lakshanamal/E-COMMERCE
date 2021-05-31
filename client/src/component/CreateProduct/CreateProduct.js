@@ -8,7 +8,7 @@ const initialState = {
   product_id: "",
   title: "",
   price: "0",
-  description: "How to and tutorial video of cool CSS ",
+  discription: "How to and tutorial video of cool CSS ",
   content: "kjndsfnjksd  jnsf s fiejijsfe",
   category: "",
 };
@@ -49,6 +49,7 @@ function CreateProduct() {
       });
       setLoading(false);
       setImages(res.data);
+      console.log(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -70,6 +71,28 @@ function CreateProduct() {
     }
   };
 
+  const handleChangeInput = (e) => {
+    const { name, value } = e.target;
+    setProduct({ ...product, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (!isAdmin) return alert("You're not admin");
+      if (!images) return alert("No Image upload");
+      await axios.post("/api/products", {...product,images}, {
+        headers: { Authorization: token },
+      });
+
+      setImages(false);
+      setProduct(initialState);
+      alert("Product sucessfuly created");
+    } catch (err) {
+      alert(err.response.data.msg);
+    }
+  };
+
   return (
     <div className="create_product">
       <div className="upload">
@@ -85,7 +108,7 @@ function CreateProduct() {
           </div>
         )}
       </div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="row">
           <label htmlFor="product_id">Product Id</label>
           <input
@@ -94,6 +117,7 @@ function CreateProduct() {
             id="product_id"
             required
             value={product.product_id}
+            onChange={handleChangeInput}
           />
         </div>
         <div className="row">
@@ -104,6 +128,7 @@ function CreateProduct() {
             id="title"
             required
             value={product.title}
+            onChange={handleChangeInput}
           />
         </div>
         <div className="row">
@@ -114,6 +139,7 @@ function CreateProduct() {
             id="price"
             required
             value={product.price}
+            onChange={handleChangeInput}
           />
         </div>
         <div className="row">
@@ -125,6 +151,7 @@ function CreateProduct() {
             required
             rows="5"
             value={product.discription}
+            onChange={handleChangeInput}
           />
         </div>
         <div className="row">
@@ -136,11 +163,16 @@ function CreateProduct() {
             required
             rows="7"
             value={product.content}
+            onChange={handleChangeInput}
           />
         </div>
         <div className="row">
           <label htmlFor="category">Category</label>
-          <select name="category" value={product.category}>
+          <select
+            name="category"
+            value={product.category}
+            onChange={handleChangeInput}
+          >
             <option value="">Please select a category</option>
             {categories.map((category) => {
               return (
