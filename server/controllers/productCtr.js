@@ -8,6 +8,7 @@ class APIfeature {
 
   filtering() {
     const queryObj = { ...this.queryString };
+
     const excludedFeild = ["page", "sort", "limit"];
     excludedFeild.forEach((el) => delete queryObj[el]);
 
@@ -15,38 +16,43 @@ class APIfeature {
 
     queryStr = queryStr.replace(
       /\b(gte|gt|lt|lte|regex)\b/g,
-      (match) => "$" + match // conatination with $
+      (match) => "$" + match
     );
+    console.log(queryStr);
     this.query.find(JSON.parse(queryStr)); // search database
     return this;
   }
   sorting() {
-      if(this.queryString.sort){
-        const sortBy=this.queryString.sort.split(',').join(' ');
-        this.query=this.query.sort(sortBy);
-      }else{
-          this.query=this.query.sort('-createAt')   // this is default sort by method for based on created time
-      }
-      return this;   
+    if (this.queryString.sort) {
+      const sortBy = this.queryString.sort.split(",").join(" ");
+      this.query = this.query.sort(sortBy);
+    } else {
+      this.query = this.query.sort("-createAt"); // this is default sort by method for based on created time
+    }
+    return this;
   }
   paginating() {
-      const page=this.queryString.page *1 || 1
-      const limit =this.queryString.limit * 1|| 9
-      const skip=(page-1) * limit;
-      this.query=this.query.skip(skip).limit(limit)
-      return this;
+    const page = this.queryString.page * 1 || 1;
+    const limit = this.queryString.limit * 1 || 9;
+    const skip = (page - 1) * limit;
+    this.query = this.query.skip(skip).limit(limit);
+    return this;
   }
 }
 const productCtrl = {
   getProduct: async (req, res) => {
     try {
-      const features = new APIfeature(Product.find(), req.query).filtering().sorting().paginating();
+      const features = new APIfeature(Product.find(), req.query)
+        .filtering()
+        .sorting()
+        .paginating();
       const products = await features.query; //member of APIfeature class
       //   const products=await Product.find();
+
       res.json({
-          status:'sucess',
-          result:products.length,
-          products:products
+        status: "sucess",
+        result: products.length,
+        products: products,
       });
     } catch (err) {
       return res.status(500).json({ msg: err.message });

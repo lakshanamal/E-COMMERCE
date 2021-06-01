@@ -4,7 +4,7 @@ import { GlobalState } from "../../GlobalState";
 function Filters() {
   const state = useContext(GlobalState);
   // const [products,setProsucts]=state.productsAPI.products
-  const [callback, setCallBack] = useState(false);
+//   const [callback, setCallBack] = useState(false);
   const [categories, setCategories] = state.category.categories;
   const [category, setCategory] = state.productsAPI.category;
   const [sort, setSort] = state.productsAPI.sort;
@@ -13,6 +13,8 @@ function Filters() {
   // const [result,setResult]=state.productsAPI.result
   const handleCategory = (e) => {
     setCategory(e.target.value);
+    setSearch("");
+    console.log(category);
   };
 
   return (
@@ -23,7 +25,7 @@ function Filters() {
           <option value="">All Products</option>
           {categories.map((item) => {
             return (
-              <option value={"category" + item._id} key={item._id}>
+              <option value={"category=" + item._id} key={item._id}>
                 {item.name}
               </option>
             );
@@ -38,12 +40,16 @@ function Filters() {
       />
       <div className="row">
         <span>Sort By : </span>
-        <select name="category" value={sort} onChange={e=>setSort(e.target.value)}>
+        <select
+          name="category"
+          value={sort}
+          onChange={(e) => setSort(e.target.value)}
+        >
           <option value="">Newest</option>
-          <option value='sort=oldest'>Oldest</option>
-          <option value='sort=sold'>Best Sales</option>
-          <option value='sort=price'>Price : High-Low</option>
-          <option value='sort=-price'>Price : Low-High</option>
+          <option value="sort=oldest">Oldest</option>
+          <option value="sort=-sold">Best Sales</option>
+          <option value="sort=-price">Price : High-Low</option>
+          <option value="sort=price">Price : Low-High</option>
         </select>
       </div>
     </div>

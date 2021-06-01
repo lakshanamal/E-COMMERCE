@@ -16,6 +16,7 @@ function ProductsAPI() {
     const getProduct = async () => {
       const res = await axios.get(`/api/products?limit=${page*9}&${category}&${sort}&title[regex]=${search}`);
       setProducts(res.data.products);
+      console.log(res)
     };
     getProduct();
   }, [callback,category,sort,search,page])
