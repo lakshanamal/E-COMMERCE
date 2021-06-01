@@ -3,6 +3,7 @@ import { GlobalState } from "../../GlobalState";
 import ProductItem from "../until/ProductItem/ProductItem";
 import Loading from "../until/loading/Loading";
 import Filters from './Filters'
+import LoadMore from './LoadMore'
 
 import "./header.css";
 
@@ -31,6 +32,7 @@ function Products() {
           );
         })}
       </div>
+      <LoadMore />
       {products.length === 0 && <Loading />}
     </>
   );
